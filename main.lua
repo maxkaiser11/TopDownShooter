@@ -9,6 +9,10 @@ function love.load()
     player.x = love.graphics.getWidth() / 2
     player.y = love.graphics.getHeight() / 2
     player.speed = 150
+    player.offsetX = sprites.player:getWidth() / 2
+    player.offsetY = sprites.player:getHeight() / 2
+
+    tempRotation = 0
 end
 
 function love.update(dt)
@@ -31,6 +35,8 @@ function love.update(dt)
     if love.keyboard.isDown("s") then
         player.y = player.y + player.speed * dt
     end
+
+    tempRotation = tempRotation + 0.01
 end
 
 function love.draw()
@@ -38,6 +44,11 @@ function love.draw()
     love.graphics.draw(sprites.background, 0, 0)
 
     -- player
-    love.graphics.draw(sprites.player, player.x, player.y)
+    love.graphics.draw(sprites.player, player.x, player.y, playerMouseAngle(), nil, nil, player.offsetX, player.offsetY)
 
+end
+
+-- radian rotation angle between two points
+function playerMouseAngle()
+    return math.atan2( player.y - love.mouse.getY(), player.x - love.mouse.getX() ) + math.pi
 end
